@@ -105,4 +105,8 @@
       <version>1.3.2</version>
     </dependency>
   </dependencies>
+  <scm>
+  	<connection>scm:git:git@github.com:49502291/hw1-yichenca.git</connection>
+  	<developerConnection>scm:git:git@github.com:49502291/hw1-yichenca.git</developerConnection>
+  </scm>
 </project>
