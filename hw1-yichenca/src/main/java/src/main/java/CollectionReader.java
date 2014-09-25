@@ -125,6 +125,8 @@ public class CollectionReader extends CollectionReader_ImplBase {
 	      throw new CollectionException(e);
 	    }
 
+	  //  for(;mCurrentIndex<sentences.size();mCurrentIndex++)
+	    //{
 	    // open input stream to file
 	    String sentence = sentences.get(mCurrentIndex++);
 	    
@@ -140,9 +142,11 @@ public class CollectionReader extends CollectionReader_ImplBase {
 				break;
 			}
 		}
+		
 		annotation.setID(sentence.substring(0, value));
 		annotation.setSentence(sentence.substring(value+1, sentence.length()));
 		annotation.addToIndexes();
+	  // }
 	    	    
 	}
 

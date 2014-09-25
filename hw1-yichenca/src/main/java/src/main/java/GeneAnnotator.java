@@ -1,5 +1,6 @@
 package src.main.java;
 
+import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_component.JCasAnnotator_ImplBase;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.cas.CASException;
@@ -21,6 +22,27 @@ import java.io.IOException;
 public class GeneAnnotator extends JCasAnnotator_ImplBase {
 
 	
+	private static Chunker chunker;
+	
+	public void initialize(UimaContext context) throws ResourceInitializationException {
+		
+		chunker =null;
+		
+		File modelFile = new File("./src/main/resources/ne-en-bio-genetag.HmmChunker");
+
+		System.out.println("Reading chunker from file=" + modelFile);
+		
+		try {
+			chunker  = (Chunker) AbstractExternalizable.readObject(modelFile);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
 	 /**
 	   * This method uses LingPipe to recognize entities. The named entity recognition mainly
 	   * involves a statistical named entity recognizer.
@@ -33,22 +55,8 @@ public class GeneAnnotator extends JCasAnnotator_ImplBase {
 	String id = "";
 	String sentence ="";
 	Chunking chunking =null;
-	Chunker chunker =null;
-	FSIterator<Annotation> it =aJcas.getAnnotationIndex(Text.type).iterator();
-	
-	File modelFile = new File("./src/main/resources/ne-en-bio-genetag.HmmChunker");
 
-	System.out.println("Reading chunker from file=" + modelFile);
-	
-	try {
-		chunker  = (Chunker) AbstractExternalizable.readObject(modelFile);
-	} catch (IOException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	} catch (ClassNotFoundException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}
+	FSIterator<Annotation> it =aJcas.getAnnotationIndex(Text.type).iterator();
 
 	
 	while(it.hasNext())
